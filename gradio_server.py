@@ -73,8 +73,9 @@ def init(novel_type, description, request: gr.Request):
     if novel_type == "":
         novel_type = "Science Fiction" if "en" == lang_opt else "科幻故事"
     global _CACHE
+
     cookie = request.headers['cookie']
-    cookie = cookie.split('; _gat_gtag')[0]
+    cookie = cookie.split('; _gid')[0]
     # prepare first init
     init_paragraphs = get_init(text=init_prompt(
         novel_type, description), model=llm_model, tokenizer=llm_tokenizer)
@@ -88,6 +89,7 @@ def init(novel_type, description, request: gr.Request):
 
     _CACHE[cookie] = {"start_input_to_human": start_input_to_human,
                       "init_paragraphs": init_paragraphs}
+
     written_paras = f"""Title: {init_paragraphs['name']}
 
 Outline: {init_paragraphs['Outline']}
@@ -111,10 +113,12 @@ def step(short_memory, long_memory, instruction1, instruction2, instruction3, cu
     if current_paras == "":
         return "", "", "", "", "", ""
     global _CACHE
+
     # print(list(_CACHE.keys()))
     # print(request.headers.get('cookie'))
     cookie = request.headers['cookie']
-    cookie = cookie.split('; _gat_gtag')[0]
+    cookie = cookie.split('; _gid')[0]
+    print(cookie)
     cache = _CACHE[cookie]
 
     if "writer" not in cache:
@@ -161,7 +165,7 @@ def controled_step(short_memory, long_memory, selected_instruction, current_para
     # print(list(_CACHE.keys()))
     # print(request.headers.get('cookie'))
     cookie = request.headers['cookie']
-    cookie = cookie.split('; _gat_gtag')[0]
+    cookie = cookie.split('; _gid')[0]
     cache = _CACHE[cookie]
     if "writer" not in cache:
         start_input_to_human = cache["start_input_to_human"]
@@ -385,9 +389,5 @@ with gr.Blocks(title="RecurrentGPT", css="footer {visibility: hidden}", theme="d
                             inputs=[model_opt_radio],
                             outputs=[novel_type])
 
-    demo.queue(concurrency_count=1)
-
 if __name__ == "__main__":
-    demo.launch(server_port=8005, share=True,
-                debug=True,
-                server_name="0.0.0.0", show_api=False)
+    demo.queue().launch(share=False)

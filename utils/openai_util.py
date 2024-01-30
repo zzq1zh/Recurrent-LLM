@@ -20,8 +20,14 @@ def get_api_response(model, tokenizer, content: str, max_tokens=None):
     else:
         raise Exception(f"not supported language: {lang_opt}")
 
-    response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
+    # optional; defaults to `os.environ['OPENAI_API_KEY']`
+    openai.api_key = ''
+
+    # all client options can be configured just like the `OpenAI` instantiation counterpart
+    openai.base_url = ""
+
+    response = openai.chat.completions.create(
+        model='gpt-4',
         messages=[{
             'role': 'system',
             'content': system_role_content
@@ -33,6 +39,6 @@ def get_api_response(model, tokenizer, content: str, max_tokens=None):
         max_tokens=max_tokens
     )
 
-    return response['choices'][0]['message']['content']
+    return response.choices[0].message.content
 
 

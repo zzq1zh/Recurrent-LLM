@@ -24,7 +24,7 @@ def get_api_response(model, tokenizer, content: str, max_tokens=None):
         raise Exception(f"not supported language: {lang_opt}")
 
     print("===> Question:")
-    print(content)
+    #print(content)
     print("<==="+"="*100)
 
     predictor = Predictor(model, tokenizer)

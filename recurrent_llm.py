@@ -104,7 +104,7 @@ class RecurrentLLM:
 
         prompt = self.prepare_input()
 
-        print(prompt+'\n'+'\n')
+        # print(prompt+'\n'+'\n')
 
         response = get_api_response(self.model, self.tokenizer, prompt)
 

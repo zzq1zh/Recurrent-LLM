@@ -78,7 +78,7 @@ def get_init(init_text=None, text=None, response_file=None, model=None, tokenize
     """
     if not init_text:
         response = get_api_response(model, tokenizer, text)
-        print("response: {}".format(response))
+        # print("response: {}".format(response))
 
         if response_file:
             with open(response_file, 'a', encoding='utf-8') as f:

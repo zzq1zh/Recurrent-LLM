@@ -82,7 +82,7 @@ class Human:
     Reason:
     <Explain why you choose the plan>
     """
-        print(prompt+'\n'+'\n')
+        # print(prompt+'\n'+'\n')
 
         response = get_api_response(self.model, self.tokenizer, prompt)
 
@@ -125,7 +125,7 @@ class Human:
     def step(self, response_file=None):
 
         prompt = self.prepare_input()
-        print(prompt+'\n'+'\n')
+        # print(prompt+'\n'+'\n')
 
         response = get_api_response(self.model, self.tokenizer, prompt)
         self.output = self.parse_output(response)
